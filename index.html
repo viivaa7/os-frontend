@@ -2,101 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oil Spill Frontend</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .active {
+      background-color: #e0f2fe;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg p-4">
-      <h1 class="text-2xl font-bold text-blue-700 mb-6">OSFE</h1>
-      <nav class="flex flex-col gap-4">
-        <button onclick="showPanel('upload')" class="text-left px-3 py-2 bg-blue-100 hover:bg-blue-200 rounded">Upload</button>
-        <button onclick="showPanel('history')" class="text-left px-3 py-2 bg-blue-100 hover:bg-blue-200 rounded">History</button>
-      </nav>
-    </aside>
+<body class="bg-blue-50 min-h-screen flex font-sans">
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <!-- Upload Panel -->
-      <section id="uploadPanel">
-        <div class="flex flex-col lg:flex-row gap-6">
-          <!-- Upload -->
-          <div class="bg-white rounded-xl shadow p-4 w-full lg:w-1/2">
-            <h2 class="text-xl font-bold text-blue-700 mb-2">Upload Drone Image</h2>
-            <input type="file" accept="image/*" id="uploadInput" class="mb-4" />
-            <div id="uploadPreview" class="border rounded p-2 bg-gray-50 text-center">
-              <p class="text-sm text-gray-500">Preview will appear here.</p>
-            </div>
-          </div>
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r shadow-lg fixed h-full">
+    <div class="p-6 text-blue-800 text-2xl font-bold border-b">OilSpillSim</div>
+    <nav class="flex flex-col p-4 space-y-2">
+      <button onclick="showSection('home')" class="text-left p-2 rounded hover:bg-blue-100 active" id="btn-home">Home</button>
+      <button onclick="showSection('upload')" class="text-left p-2 rounded hover:bg-blue-100" id="btn-upload">Upload</button>
+      <button onclick="showSection('history')" class="text-left p-2 rounded hover:bg-blue-100" id="btn-history">History</button>
+    </nav>
+  </aside>
 
-          <!-- Processed -->
-          <div class="bg-white rounded-xl shadow p-4 w-full lg:w-1/2">
-            <h2 class="text-xl font-bold text-blue-700 mb-2">AI Processed Image</h2>
-            <img id="processedImg" src="https://via.placeholder.com/400x250" alt="Processed" class="w-full max-h-80 object-contain rounded border" />
-          </div>
+  <!-- Main Content -->
+  <main class="ml-64 p-8 w-full space-y-8">
+
+    <!-- Home Section -->
+    <section id="home-section" class="space-y-6">
+      <h1 class="text-3xl font-bold text-blue-800">Welcome to the Oil Spill Detection System</h1>
+      <p class="text-gray-700 text-lg">This tool helps visualize and store AI-detected oil spill data from drone images.</p>
+      <p class="text-gray-600">Use the Upload panel to submit a new image, or visit History to view past results.</p>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload-section" class="hidden space-y-6">
+      <h2 class="text-2xl font-bold text-blue-800">Upload Image</h2>
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Upload Panel -->
+        <div class="w-full md:w-1/2 bg-white rounded-lg shadow p-4">
+          <label class="block mb-2 font-semibold text-gray-700">Upload Image:</label>
+          <input type="file" class="mb-4" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+          <img id="uploadedImage" src="" alt="Uploaded" class="max-h-64 w-full object-contain border rounded hidden"/>
         </div>
 
-        <!-- AI Data Summary -->
-        <div class="bg-white rounded-xl shadow p-4 mt-6">
-          <h2 class="text-lg font-bold text-blue-700 mb-4">AI Analysis Summary</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <p><strong>Estimated Spill Area:</strong> <span id="aiArea">420 m²</span></p>
-            <p><strong>Coordinates:</strong> <span id="aiLocation">14.5995, 120.9842</span></p>
-            <p><strong>Shape:</strong> <span id="aiShape">Irregular Patch</span></p>
-            <p><strong>Severity:</strong> <span id="aiSeverity">High</span></p>
-          </div>
+        <!-- Result Panel -->
+        <div class="w-full md:w-1/2 bg-white rounded-lg shadow p-4">
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">AI Result</h3>
+          <img src="https://via.placeholder.com/400x200.png?text=AI+Processed+Image" alt="AI Output" class="w-full max-h-64 object-contain rounded border" />
         </div>
-      </section>
+      </div>
 
-      <!-- History Panel -->
-      <section id="historyPanel" class="hidden">
-        <h2 class="text-2xl font-bold text-blue-700 mb-4">Upload History</h2>
-        <div id="historyList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- History items will be added here -->
+      <!-- Info Panel -->
+      <div class="bg-white rounded-lg shadow p-4">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">AI Analysis Info</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
+          <div><strong>Area:</strong> 420 m²</div>
+          <div><strong>Location:</strong> Lat: 14.5995, Lon: 120.9842</div>
+          <div><strong>Shape:</strong> Irregular Patch</div>
+          <div><strong>Severity:</strong> High</div>
         </div>
-      </section>
-    </main>
-  </div>
+      </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="history-section" class="hidden space-y-6">
+      <h2 class="text-2xl font-bold text-blue-800">History</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://via.placeholder.com/400x200.png?text=Upload+1" class="rounded border mb-2" />
+          <div class="text-gray-700"><strong>Date:</strong> March 28, 2025</div>
+          <div class="text-gray-700"><strong>Area:</strong> 300 m²</div>
+          <div class="text-gray-700"><strong>Severity:</strong> Medium</div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://via.placeholder.com/400x200.png?text=Upload+2" class="rounded border mb-2" />
+          <div class="text-gray-700"><strong>Date:</strong> March 29, 2025</div>
+          <div class="text-gray-700"><strong>Area:</strong> 420 m²</div>
+          <div class="text-gray-700"><strong>Severity:</strong> High</div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script>
-    // Toggle between panels
-    function showPanel(panel) {
-      document.getElementById("uploadPanel").classList.add("hidden");
-      document.getElementById("historyPanel").classList.add("hidden");
-      document.getElementById(panel + "Panel").classList.remove("hidden");
+    function showSection(section) {
+      const sections = ['home', 'upload', 'history'];
+      sections.forEach(id => {
+        document.getElementById(`${id}-section`).classList.add('hidden');
+        document.getElementById(`btn-${id}`).classList.remove('active');
+      });
+      document.getElementById(`${section}-section`).classList.remove('hidden');
+      document.getElementById(`btn-${section}`).classList.add('active');
     }
 
-    // Handle upload & preview
-    const uploadInput = document.getElementById("uploadInput");
-    const uploadPreview = document.getElementById("uploadPreview");
-    const processedImg = document.getElementById("processedImg");
-    const historyList = document.getElementById("historyList");
+    function previewImage(event) {
+      const input = event.target;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = document.getElementById('uploadedImage');
+        img.src = reader.result;
+        img.classList.remove('hidden');
+      };
+      if (input.files[0]) reader.readAsDataURL(input.files[0]);
+    }
 
-    uploadInput.addEventListener("change", () => {
-      const file = uploadInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          uploadPreview.innerHTML = `<img src="${e.target.result}" alt="Uploaded" class="w-full max-h-80 object-contain rounded border" />`;
-          processedImg.src = e.target.result;
-
-          // Add to history
-          const now = new Date().toLocaleString();
-          const item = document.createElement("div");
-          item.className = "bg-white p-4 shadow rounded";
-          item.innerHTML = `
-            <img src="${e.target.result}" class="w-full h-40 object-cover rounded mb-2" />
-            <p class="text-sm"><strong>Date:</strong> ${now}</p>
-            <p class="text-sm"><strong>Area:</strong> 420 m²</p>
-            <p class="text-sm"><strong>Severity:</strong> High</p>
-          `;
-          historyList.prepend(item);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+    // Default to Home section
+    showSection('home');
   </script>
 </body>
 </html>
