@@ -1,11 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Oil Spill Detection</title>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oil Spill Detection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <p>This is your frontend hosted on GitHub Pages.</p>
+  <body class="bg-gradient-to-b from-white to-blue-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-2xl w-full p-8 bg-white rounded-2xl shadow-2xl border border-blue-100 text-center">
+      <h1 class="text-4xl font-bold text-blue-800 mb-4">Oil Spill Detection System</h1>
+      <p class="text-gray-700 text-lg mb-6">
+        Upload an aerial or drone image to analyze oil spills using AI detection.
+      </p>
+
+      <input
+        type="file"
+        accept="image/*"
+        class="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+        id="fileInput"
+      />
+      <button
+        onclick="handleUpload()"
+        class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-medium transition"
+      >
+        Upload Image
+      </button>
+
+      <div id="preview" class="mt-6 hidden">
+        <h2 class="text-lg font-semibold text-blue-700 mb-2">Preview:</h2>
+        <img id="uploadedImage" class="max-h-80 mx-auto rounded-lg border" />
+      </div>
+    </div>
+
+    <script>
+      function handleUpload() {
+        const input = document.getElementById("fileInput");
+        const preview = document.getElementById("preview");
+        const img = document.getElementById("uploadedImage");
+
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            img.src = e.target.result;
+            preview.classList.remove("hidden");
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
   </body>
 </html>
