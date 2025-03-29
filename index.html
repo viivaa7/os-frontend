@@ -4,109 +4,96 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oil Spill Frontend</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    .active {
-      background-color: #e0f2fe;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-50 min-h-screen flex font-sans">
-
+<body class="bg-gray-50 text-gray-800">
   <!-- Sidebar -->
-  <aside class="w-64 bg-white border-r shadow-lg fixed h-full">
-    <div class="p-6 text-blue-800 text-2xl font-bold border-b">OilSpillSim</div>
-    <nav class="flex flex-col p-4 space-y-2">
-      <button onclick="showSection('home')" class="text-left p-2 rounded hover:bg-blue-100 active" id="btn-home">Home</button>
-      <button onclick="showSection('upload')" class="text-left p-2 rounded hover:bg-blue-100" id="btn-upload">Upload</button>
-      <button onclick="showSection('history')" class="text-left p-2 rounded hover:bg-blue-100" id="btn-history">History</button>
-    </nav>
-  </aside>
+  <div class="flex min-h-screen">
+    <aside class="w-64 bg-white shadow-md p-6">
+      <h2 class="text-2xl font-bold text-blue-700 mb-6">Oil Spill OSFE</h2>
+      <nav class="flex flex-col gap-4">
+        <a href="#home" class="hover:text-blue-600 font-medium">Home</a>
+        <a href="#upload" class="hover:text-blue-600 font-medium">Upload</a>
+        <a href="#history" class="hover:text-blue-600 font-medium">History</a>
+      </nav>
+    </aside>
 
-  <!-- Main Content -->
-  <main class="ml-64 p-8 w-full space-y-8">
+    <!-- Main Content -->
+    <main class="flex-1 p-10 space-y-16 overflow-y-auto">
+      <!-- Home Section -->
+      <section id="home" class="space-y-4">
+        <h1 class="text-3xl font-bold text-blue-800">Welcome to Oil Spill Frontend</h1>
+        <p class="text-lg text-gray-600">Monitor, analyze, and visualize oil spill data using drone images, AI detection, and simulated spread predictions.</p>
+      </section>
 
-    <!-- Home Section -->
-    <section id="home-section" class="space-y-6">
-      <h1 class="text-3xl font-bold text-blue-800">Welcome to the Oil Spill Detection System</h1>
-      <p class="text-gray-700 text-lg">This tool helps visualize and store AI-detected oil spill data from drone images.</p>
-      <p class="text-gray-600">Use the Upload panel to submit a new image, or visit History to view past results.</p>
-    </section>
+      <!-- Upload Panel -->
+      <section id="upload" class="space-y-10">
+        <h2 class="text-2xl font-bold text-blue-800">Upload & Results</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Upload -->
+          <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
+            <h3 class="text-xl font-semibold mb-4">Upload Drone Image</h3>
+            <input type="file" class="mb-4 w-full border rounded p-2" />
+            <img src="uploaded-image.jpg" alt="Uploaded" class="w-full h-64 object-cover rounded border" />
+          </div>
 
-    <!-- Upload Section -->
-    <section id="upload-section" class="hidden space-y-6">
-      <h2 class="text-2xl font-bold text-blue-800">Upload Image</h2>
-      <div class="flex flex-col md:flex-row gap-6">
-        <!-- Upload Panel -->
-        <div class="w-full md:w-1/2 bg-white rounded-lg shadow p-4">
-          <label class="block mb-2 font-semibold text-gray-700">Upload Image:</label>
-          <input type="file" class="mb-4" id="imageUpload" accept="image/*" onchange="previewImage(event)">
-          <img id="uploadedImage" src="" alt="Uploaded" class="max-h-64 w-full object-contain border rounded hidden"/>
+          <!-- AI Result -->
+          <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
+            <h3 class="text-xl font-semibold mb-4">AI Processed Result</h3>
+            <img src="ai-processed.jpg" alt="Processed Result" class="w-full h-64 object-cover rounded border" />
+          </div>
         </div>
 
-        <!-- Result Panel -->
-        <div class="w-full md:w-1/2 bg-white rounded-lg shadow p-4">
-          <h3 class="text-xl font-semibold text-gray-700 mb-2">AI Result</h3>
-          <img src="https://via.placeholder.com/400x200.png?text=AI+Processed+Image" alt="AI Output" class="w-full max-h-64 object-contain rounded border" />
+        <!-- Simulation -->
+        <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
+          <h3 class="text-xl font-semibold mb-4 text-blue-800">Simulation (3D/2D View)</h3>
+          <video controls class="w-full rounded-lg border">
+            <source src="simulation.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
-      </div>
 
-      <!-- Info Panel -->
-      <div class="bg-white rounded-lg shadow p-4">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">AI Analysis Info</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
-          <div><strong>Area:</strong> 420 m²</div>
-          <div><strong>Location:</strong> Lat: 14.5995, Lon: 120.9842</div>
-          <div><strong>Shape:</strong> Irregular Patch</div>
-          <div><strong>Severity:</strong> High</div>
+        <!-- AI Analysis Info -->
+        <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
+          <h3 class="text-xl font-semibold mb-4 text-blue-800">AI Analysis Summary</h3>
+          <div class="grid grid-cols-2 gap-4 text-gray-700">
+            <div><strong>Estimated Area:</strong> 420 m²</div>
+            <div><strong>Coordinates:</strong> Lat: 14.5995, Lon: 120.9842</div>
+            <div><strong>Shape:</strong> Irregular Patch</div>
+            <div><strong>Severity:</strong> High</div>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- History Section -->
-    <section id="history-section" class="hidden space-y-6">
-      <h2 class="text-2xl font-bold text-blue-800">History</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-lg shadow p-4">
-          <img src="https://via.placeholder.com/400x200.png?text=Upload+1" class="rounded border mb-2" />
-          <div class="text-gray-700"><strong>Date:</strong> March 28, 2025</div>
-          <div class="text-gray-700"><strong>Area:</strong> 300 m²</div>
-          <div class="text-gray-700"><strong>Severity:</strong> Medium</div>
+        <!-- Predictive Dispersion -->
+        <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
+          <h3 class="text-xl font-semibold mb-4 text-blue-800">Predictive Dispersion</h3>
+          <ul class="list-disc ml-6 text-gray-700 space-y-1">
+            <li><strong>Estimated Spread:</strong> 620 m² in 3 hours</li>
+            <li><strong>Distance Reached:</strong> 500 meters offshore</li>
+            <li><strong>Estimated Time of Containment:</strong> 6 hours from detection</li>
+          </ul>
         </div>
-        <div class="bg-white rounded-lg shadow p-4">
-          <img src="https://via.placeholder.com/400x200.png?text=Upload+2" class="rounded border mb-2" />
-          <div class="text-gray-700"><strong>Date:</strong> March 29, 2025</div>
-          <div class="text-gray-700"><strong>Area:</strong> 420 m²</div>
-          <div class="text-gray-700"><strong>Severity:</strong> High</div>
+      </section>
+
+      <!-- History Panel -->
+      <section id="history">
+        <h2 class="text-2xl font-bold text-blue-800 mb-6">Upload History</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white shadow-lg p-4 rounded-lg border">
+            <img src="history-image1.jpg" class="w-full h-40 object-cover rounded border mb-2" />
+            <div class="text-gray-700 text-sm"><strong>Date:</strong> March 28, 2025</div>
+            <div class="text-gray-700 text-sm"><strong>Area:</strong> 312 m²</div>
+            <div class="text-gray-700 text-sm"><strong>Severity:</strong> Moderate</div>
+          </div>
+          <div class="bg-white shadow-lg p-4 rounded-lg border">
+            <img src="history-image2.jpg" class="w-full h-40 object-cover rounded border mb-2" />
+            <div class="text-gray-700 text-sm"><strong>Date:</strong> March 25, 2025</div>
+            <div class="text-gray-700 text-sm"><strong>Area:</strong> 520 m²</div>
+            <div class="text-gray-700 text-sm"><strong>Severity:</strong> High</div>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    function showSection(section) {
-      const sections = ['home', 'upload', 'history'];
-      sections.forEach(id => {
-        document.getElementById(`${id}-section`).classList.add('hidden');
-        document.getElementById(`btn-${id}`).classList.remove('active');
-      });
-      document.getElementById(`${section}-section`).classList.remove('hidden');
-      document.getElementById(`btn-${section}`).classList.add('active');
-    }
-
-    function previewImage(event) {
-      const input = event.target;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const img = document.getElementById('uploadedImage');
-        img.src = reader.result;
-        img.classList.remove('hidden');
-      };
-      if (input.files[0]) reader.readAsDataURL(input.files[0]);
-    }
-
-    // Default to Home section
-    showSection('home');
-  </script>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
