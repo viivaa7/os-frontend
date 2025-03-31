@@ -18,6 +18,7 @@
         <a href="#home" onclick="showSection('home')" class="hover:text-blue-600 font-medium">Home</a>
         <a href="#upload" onclick="showSection('upload')" class="hover:text-blue-600 font-medium">Upload</a>
         <a href="#history" onclick="showSection('history')" class="hover:text-blue-600 font-medium">History</a>
+        <a href="#about" onclick="showSection('about')" class="hover:text-blue-600 font-medium">About</a>
       </nav>
     </aside>
 
@@ -29,21 +30,22 @@
         <p class="text-lg text-gray-600 mt-2">Monitor, analyze, and visualize oil spill data using drone images, AI detection, and simulated spread predictions.</p>
       </section>
 
-      <!-- Upload Section -->
+          <!-- Upload Section -->
       <section id="upload" class="section section-hidden">
         <h2 class="text-2xl font-bold text-blue-800 mb-6">Upload & Results</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <!-- Upload -->
           <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
             <h3 class="text-xl font-semibold mb-4">Upload Drone Image</h3>
-            <input type="file" class="mb-4 w-full border rounded p-2" />
-            <img src="uploaded-image.jpg" alt="Uploaded" class="w-full h-64 object-cover rounded border" />
+            <input type="file" id="droneImageInput" class="mb-4 w-full border rounded p-2" accept="image/*" />
+            <img id="droneImage" src="uploaded-image.jpg" alt="Uploaded" class="w-full h-64 object-cover rounded border" />
           </div>
 
           <!-- AI Result -->
           <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
             <h3 class="text-xl font-semibold mb-4">AI Processed Result</h3>
-            <img src="ai-processed.jpg" alt="Processed Result" class="w-full h-64 object-cover rounded border" />
+            <input type="file" id="aiImageInput" class="mb-4 w-full border rounded p-2" accept="image/*" />
+            <img id="aiImage" src="ai-processed.jpg" alt="Processed Result" class="w-full h-64 object-cover rounded border" />
           </div>
         </div>
 
@@ -51,7 +53,8 @@
         <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100 mt-8">
           <h3 class="text-xl font-semibold mb-4 text-blue-800">Simulation (3D/2D View)</h3>
           <div class="w-full flex justify-center">
-            <video controls class="rounded-lg border w-full max-w-md">
+            <input type="file" id="simulationVideoInput" class="mb-4 w-full border rounded p-2" accept="video/*" />
+            <video id="simulationVideo" controls class="rounded-lg border w-full max-w-md">
               <source src="simulation.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
@@ -98,20 +101,71 @@
           </div>
         </div>
       </section>
+
+      <!-- About Section -->
+      <section id="about" class="section section-hidden">
+        <h2 class="text-2xl font-bold text-blue-800 mb-6">About This Website</h2>
+        <p class="text-lg text-gray-600">This platform helps monitor and analyze oil spills through AI and simulations. Here’s how it works:</p>
+        <ol class="list-decimal ml-6 text-gray-700 space-y-2 mt-4">
+          <li><strong>Upload:</strong> Users upload drone-captured images of the suspected oil spill.</li>
+          <li><strong>AI Analysis:</strong> The system processes the image, detects the spill, and estimates its area, severity, and shape.</li>
+          <li><strong>Tracking Results:</strong> Key data such as affected coordinates and estimated dispersion are displayed.</li>
+          <li><strong>Simulation:</strong> A predictive model simulates how the spill will spread over time.</li>
+          <li><strong>History:</strong> Previous uploads are stored for analysis and tracking of spill trends.</li>
+        </ol>
+      </section>
     </main>
   </div>
 
-  <!-- JavaScript for Section Switching -->
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.add('section-hidden');
-      });
-      document.getElementById(id).classList.remove('section-hidden');
-    }
+    <!-- JavaScript for Section Switching -->
+    <script>
+        function showSection(id) {
+          document.querySelectorAll('.section').forEach(section => {
+            section.classList.add('section-hidden');
+          });
+          document.getElementById(id).classList.remove('section-hidden');
+        }
+    
+        // Default to home section on load
+        window.onload = () => showSection('home');
+      </script>  
+    </body>
+    </html>
+    
 
-    // Default to home section on load
-    window.onload = () => showSection('home');
-  </script>
+  <script>
+    function previewImage(input, targetId) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById(targetId).src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  
+    function previewVideo(input, videoId) {
+      const file = input.files[0];
+      if (file) {
+        const video = document.getElementById(videoId);
+        const objectURL = URL.createObjectURL(file);
+        video.src = objectURL;
+      }
+    }
+  
+    document.getElementById("droneImageInput").addEventListener("change", function () {
+      previewImage(this, "droneImage");
+    });
+  
+    document.getElementById("aiImageInput").addEventListener("change", function () {
+      previewImage(this, "aiImage");
+    });
+  
+    document.getElementById("simulationVideoInput").addEventListener("change", function () {
+      previewVideo(this, "simulationVideo");
+    });
+  </script>  
 </body>
 </html>
+
