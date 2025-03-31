@@ -30,30 +30,27 @@
         <p class="text-lg text-gray-600 mt-2">Monitor, analyze, and visualize oil spill data using drone images, AI detection, and simulated spread predictions.</p>
       </section>
 
-          <!-- Upload Section -->
+      <!-- Upload Section (No Upload Option) -->
       <section id="upload" class="section section-hidden">
-        <h2 class="text-2xl font-bold text-blue-800 mb-6">Upload & Results</h2>
+        <h2 class="text-2xl font-bold text-blue-800 mb-6">Results</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Upload -->
+          <!-- Drone Image (Displayed without upload option) -->
           <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
-            <h3 class="text-xl font-semibold mb-4">Upload Drone Image</h3>
-            <input type="file" id="droneImageInput" class="mb-4 w-full border rounded p-2" accept="image/*" />
+            <h3 class="text-xl font-semibold mb-4">Drone Image</h3>
             <img id="droneImage" src="uploaded-image.jpg" alt="Uploaded" class="w-full h-64 object-cover rounded border" />
           </div>
 
-          <!-- AI Result -->
+          <!-- AI Result (Displayed without upload option) -->
           <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100">
             <h3 class="text-xl font-semibold mb-4">AI Processed Result</h3>
-            <input type="file" id="aiImageInput" class="mb-4 w-full border rounded p-2" accept="image/*" />
             <img id="aiImage" src="ai-processed.jpg" alt="Processed Result" class="w-full h-64 object-cover rounded border" />
           </div>
         </div>
 
-        <!-- Simulation Video -->
+        <!-- Simulation Video (Displayed without upload option) -->
         <div class="bg-white shadow-lg rounded-xl p-6 border border-blue-100 mt-8">
           <h3 class="text-xl font-semibold mb-4 text-blue-800">Simulation (3D/2D View)</h3>
           <div class="w-full flex justify-center">
-            <input type="file" id="simulationVideoInput" class="mb-4 w-full border rounded p-2" accept="video/*" />
             <video id="simulationVideo" controls class="rounded-lg border w-full max-w-md">
               <source src="simulation.mp4" type="video/mp4">
               Your browser does not support the video tag.
@@ -117,54 +114,17 @@
     </main>
   </div>
 
-    <!-- JavaScript for Section Switching -->
-    <script>
-        function showSection(id) {
-          document.querySelectorAll('.section').forEach(section => {
-            section.classList.add('section-hidden');
-          });
-          document.getElementById(id).classList.remove('section-hidden');
-        }
-    
-        // Default to home section on load
-        window.onload = () => showSection('home');
-      </script>  
-    </body>
-    </html>
-    
-
+  <!-- JavaScript for Section Switching -->
   <script>
-    function previewImage(input, targetId) {
-      const file = input.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          document.getElementById(targetId).src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('section-hidden');
+      });
+      document.getElementById(id).classList.remove('section-hidden');
     }
   
-    function previewVideo(input, videoId) {
-      const file = input.files[0];
-      if (file) {
-        const video = document.getElementById(videoId);
-        const objectURL = URL.createObjectURL(file);
-        video.src = objectURL;
-      }
-    }
-  
-    document.getElementById("droneImageInput").addEventListener("change", function () {
-      previewImage(this, "droneImage");
-    });
-  
-    document.getElementById("aiImageInput").addEventListener("change", function () {
-      previewImage(this, "aiImage");
-    });
-  
-    document.getElementById("simulationVideoInput").addEventListener("change", function () {
-      previewVideo(this, "simulationVideo");
-    });
+    // Default to home section on load
+    window.onload = () => showSection('home');
   </script>  
 </body>
 </html>
